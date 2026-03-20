@@ -150,21 +150,7 @@ body {
     background: linear-gradient(135deg, #f44336 0%, #ea4335 100%);
 }
 
-.social-icon.instagram-icon {
-    background: linear-gradient(135deg, #e1306c 0%, #fd1d1d 100%);
-}
 
-.social-icon.instagram-icon:hover {
-    background: linear-gradient(135deg, #f77737 0%, #feda75 100%);
-}
-
-.social-icon.tiktok-icon {
-    background: linear-gradient(135deg, #000000 0%, #25f4ee 100%);
-}
-
-.social-icon.tiktok-icon:hover {
-    background: linear-gradient(135deg, #25f4ee 0%, #00f7ef 100%);
-}
 
 /* Hero Section */
 .hero {
