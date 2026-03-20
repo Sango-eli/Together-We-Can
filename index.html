@@ -166,9 +166,53 @@
     <section class="testimonials" id="testimonials">
         <div class="container">
             <h2>Stories of Hope</h2>
+            
+            <!-- Testimonial Submission Form -->
+            <div class="testimonial-form-container">
+                <h3>Share Your Story</h3>
+                <p>Your words inspire us and others. Please share your testimony or thankful words about how Together We Can has impacted your life or your family.</p>
+                <form id="testimonialForm" class="testimonial-form">
+                    <div class="form-group">
+                        <label for="fullName">Full Name *</label>
+                        <input type="text" id="fullName" name="fullName" required placeholder="Enter your full name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="relationship">Your Relationship *</label>
+                        <select id="relationship" name="relationship" required>
+                            <option value="">Select your relationship</option>
+                            <option value="Parent">Parent</option>
+                            <option value="Beneficiary">Beneficiary/Student</option>
+                            <option value="Family Member">Family Member</option>
+                            <option value="Donor">Donor</option>
+                            <option value="Volunteer">Volunteer</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="testimony">Your Testimony *</label>
+                        <textarea id="testimony" name="testimony" required placeholder="Share your heartfelt words, experience, and gratitude. How has Together We Can made a difference in your life?" rows="5"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" placeholder="Your email address (optional)">
+                    </div>
+
+                    <div class="form-group checkbox">
+                        <input type="checkbox" id="sharePublic" name="sharePublic">
+                        <label for="sharePublic">I consent to share my testimony publicly on the website immediately</label>
+                    </div>
+
+                    <button type="submit" class="submit-testimony-btn">Submit Your Testimony</button>
+                    <p class="form-note">✓ Check the consent box above to have your story displayed immediately for other visitors. All submissions are also sent to our team for review and care.</p>
+                </form>
+            </div>
+
             <div class="testimonials-grid">
                 <div class="testimonial-card">
-                    <p class="testimonial-text">"Hope & Healing gave my daughter access to physiotherapy that changed her life. She's now in school with her peers and is thriving!"</p>
+                    <p class="testimonial-text">"Together We Can gave my daughter access to physiotherapy that changed her life. She's now in school with her peers and is thriving!"</p>
                     <p class="testimonial-author">- Maria, Mother</p>
                 </div>
                 <div class="testimonial-card">
@@ -217,7 +261,7 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <h4>Hope & Healing</h4>
+                    <h4>Together We Can</h4>
                     <p>Transforming the lives of disabled and underprivileged children.</p>
                 </div>
                 <div class="footer-section">
@@ -240,7 +284,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2024 Hope & Healing. All rights reserved. | Registered Nonprofit Organization</p>
+                <p>&copy; 2024 Together We Can. All rights reserved. | Registered Nonprofit Organization</p>
             </div>
         </div>
     </footer>

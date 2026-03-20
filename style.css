@@ -356,10 +356,131 @@ body {
     background: var(--light-bg);
 }
 
+.testimonials h2 {
+    margin-bottom: 3rem;
+}
+
+/* Testimonial Form */
+.testimonial-form-container {
+    background: var(--white);
+    padding: 3rem;
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    margin-bottom: 3rem;
+    border-top: 4px solid var(--primary-color);
+}
+
+.testimonial-form-container h3 {
+    font-size: 1.8rem;
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+}
+
+.testimonial-form-container > p {
+    color: var(--text-light);
+    margin-bottom: 2rem;
+    line-height: 1.8;
+}
+
+.testimonial-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group.checkbox {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.form-group.checkbox label {
+    margin-bottom: 0;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group select,
+.form-group textarea {
+    padding: 0.75rem 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="email"]:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 120px;
+    line-height: 1.6;
+}
+
+.form-group input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: var(--primary-color);
+}
+
+.submit-testimony-btn {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: var(--white);
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow);
+    align-self: flex-start;
+}
+
+.submit-testimony-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+.submit-testimony-btn:active {
+    transform: translateY(-1px);
+}
+
+.form-note {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    font-style: italic;
+    margin-top: 0.5rem;
+}
+
 .testimonials-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
+    margin-top: 3rem;
 }
 
 .testimonial-card {
@@ -368,6 +489,25 @@ body {
     border-radius: 10px;
     box-shadow: var(--shadow);
     border-left: 4px solid var(--secondary-color);
+}
+
+.testimonial-card.user-submitted {
+    border-left-color: var(--primary-color);
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.02) 0%, rgba(37, 99, 235, 0.05) 100%);
+    position: relative;
+}
+
+.testimonial-card.user-submitted::before {
+    content: '✓ Recent';
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: var(--primary-color);
+    color: var(--white);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: bold;
 }
 
 .testimonial-text {
@@ -381,6 +521,12 @@ body {
 .testimonial-author {
     color: var(--primary-color);
     font-weight: bold;
+}
+
+.testimonial-date {
+    color: var(--text-light);
+    font-size: 0.85rem;
+    margin-top: 0.75rem;
 }
 
 /* Donation Section */
@@ -601,6 +747,19 @@ body {
         width: 50px;
         height: 50px;
         font-size: 1.3rem;
+    }
+
+    .testimonial-form-container {
+        padding: 2rem 1.5rem;
+    }
+
+    .testimonial-form-container h3 {
+        font-size: 1.5rem;
+    }
+
+    .submit-testimony-btn {
+        width: 100%;
+        align-self: center;
     }
 }
 
