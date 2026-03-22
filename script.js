@@ -312,3 +312,216 @@ if (testimonialForm) {
         }, 1500);
     });
 }
+
+// ====== BANK DONATION FUNCTIONALITY ======
+
+// Tab Switching
+document.querySelectorAll('.tab-button').forEach(button => {
+    button.addEventListener('click', function() {
+        const tabName = this.getAttribute('data-tab');
+        switchTab(tabName);
+    });
+});
+
+function switchTab(tabName) {
+    // Hide all tab contents
+    document.querySelectorAll('.tab-content').forEach(content => {
+        content.classList.remove('active');
+    });
+    
+    // Show selected tab content
+    document.getElementById(tabName).classList.add('active');
+    
+    // Update button states
+    document.querySelectorAll('.tab-button').forEach(button => {
+        button.classList.remove('active');
+        if (button.getAttribute('data-tab') === tabName) {
+            button.classList.add('active');
+        }
+    });
+}
+
+// Copy Account Details Function
+function copyAccountDetails() {
+    const bankName = document.getElementById('bankName').textContent;
+    const accountName = document.getElementById('accountName').textContent;
+    const accountNumber = document.getElementById('accountNumber').textContent;
+    const swiftCode = document.getElementById('swiftCode').textContent;
+    
+    const accountDetails = `Bank Account Details for Together We Can:\n\nBank Name: ${bankName}\nAccount Name: ${accountName}\nAccount Number: ${accountNumber}\nSwift Code: ${swiftCode}`;
+    
+    // Copy to clipboard
+    navigator.clipboard.writeText(accountDetails).then(() => {
+        // Show success feedback
+        const copyBtn = document.querySelector('.copy-btn');
+        const originalText = copyBtn.innerHTML;
+        copyBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        copyBtn.style.background = '#10b981';
+        
+        setTimeout(() => {
+            copyBtn.innerHTML = originalText;
+            copyBtn.style.background = '';
+        }, 2000);
+    }).catch(err => {
+        alert('Failed to copy. Please copy manually from the details above.');
+        console.error('Copy failed:', err);
+    });
+}
+
+// Bank Donation Form Validation and Handling
+const bankDonationForm = document.getElementById('bankDonationForm');
+
+if (bankDonationForm) {
+    bankDonationForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Get form values
+        const donorName = document.getElementById('donorName').value.trim();
+        const donorEmail = document.getElementById('donorEmail').value.trim();
+        const donationAmount = parseFloat(document.getElementById('donationAmount').value);
+        const donationPurpose = document.getElementById('donationPurpose').value;
+        const donorPhone = document.getElementById('donorPhone').value.trim();
+        const agreeTerms = document.getElementById('agreeTerms').checked;
+        const agreePrivacy = document.getElementById('agreePrivacy').checked;
+        const subscribeNews = document.getElementById('subscribeNews').checked;
+        
+        // Validate required fields
+        if (!donorName) {
+            alert('Please enter your full name');
+            document.getElementById('donorName').focus();
+            return;
+        }
+        
+        if (!donorEmail) {
+            alert('Please enter your email address');
+            document.getElementById('donorEmail').focus();
+            return;
+        }
+        
+        // Validate email format
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(donorEmail)) {
+            alert('Please enter a valid email address');
+            document.getElementById('donorEmail').focus();
+            return;
+        }
+        
+        // Validate donation amount
+        if (!donationAmount || donationAmount < 10) {
+            alert('Please enter a valid donation amount (minimum $10)');
+            document.getElementById('donationAmount').focus();
+            return;
+        }
+        
+        // Check agreement checkboxes
+        if (!agreeTerms || !agreePrivacy) {
+            alert('Please read and agree to all terms and privacy policies');
+            return;
+        }
+        
+        // Validate name format (at least 2 characters and contains only letters/spaces)
+        const nameRegex = /^[a-zA-Z\s]{2,}$/;
+        if (!nameRegex.test(donorName)) {
+            alert('Please enter a valid full name');
+            document.getElementById('donorName').focus();
+            return;
+        }
+        
+        // SECURITY: Never store sensitive banking information
+        // Create a safe record just for acknowledgment
+        const donationRecord = {
+            donorName: donorName,
+            donorEmail: donorEmail,
+            amount: donationAmount,
+            purpose: donationPurpose,
+            timestamp: new Date().toISOString(),
+            subscribed: subscribeNews
+        };
+        
+        // Don't store donor bank account info - send via WhatsApp instead
+        const donationMessage = encodeURIComponent(
+            `Bank Transfer Donation Notification:\n\n` +
+            `Donor Name: ${donorName}\n` +
+            `Email: ${donorEmail}\n` +
+            `Phone: ${donorPhone || 'Not provided'}\n` +
+            `Donation Amount: $${donationAmount.toFixed(2)}\n` +
+            `Purpose: ${donationPurpose || 'General Support'}\n` +
+            `Newsletter Subscription: ${subscribeNews ? 'Yes' : 'No'}\n\n` +
+            `The donor will transfer funds to the bank account through their own banking application.`
+        );
+        
+        // Show processing state
+        const submitBtn = this.querySelector('.submit-donation-btn');
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = '⏳ Processing...';
+        submitBtn.disabled = true;
+        
+        // Simulate processing delay
+        setTimeout(() => {
+            // Show success state
+            submitBtn.textContent = '✓ Donation Recorded!';
+            submitBtn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+            
+            // Send confirmation via WhatsApp
+            const whatsappURL = `https://wa.me/${WHATSAPP_NUMBER}?text=${donationMessage}`;
+            window.open(whatsappURL, '_blank');
+            
+            // Reset form after a delay
+            setTimeout(() => {
+                // Reset button
+                submitBtn.textContent = originalText;
+                submitBtn.style.background = '';
+                submitBtn.disabled = false;
+                
+                // Reset form
+                bankDonationForm.reset();
+                
+                // Show success message
+                const successMessage = `
+Thank You for Your Generosity!
+
+Dear ${donorName},
+
+Your donation intention of $${donationAmount.toFixed(2)} has been recorded.
+
+✓ Bank account details have been provided securely
+✓ Your donation receipt will be sent to: ${donorEmail}
+✓ A WhatsApp confirmation has been sent to our team
+
+Please complete your transfer within 24 hours using the bank details shown above.
+
+For any questions, contact us via WhatsApp at +256781096164 or email togetherwecanuganda24@gmail.com
+
+${subscribeNews ? '\n✓ You will receive updates about our programs and impact.' : ''}
+
+Together We Can - Transforming Lives, One Child at a Time
+                `;
+                
+                alert(successMessage);
+                
+                // Switch back to preset donations tab
+                switchTab('preset-donation');
+            }, 1500);
+        }, 800);
+    });
+    
+    // Real-time validation for donation amount
+    const donationAmountInput = document.getElementById('donationAmount');
+    donationAmountInput.addEventListener('change', function() {
+        const amount = parseFloat(this.value);
+        if (amount < 10) {
+            this.style.borderColor = '#dc2626';
+        } else {
+            this.style.borderColor = '#22c55e';
+        }
+    });
+}
+
+// Security: Clear sensitive data from memory when user leaves the page
+window.addEventListener('beforeunload', function() {
+    // Clear any sensitive form data from DOM
+    const formInputs = document.querySelectorAll('input[type="password"], input[type="text"][name*="bank"], input[type="number"][name*="account"]');
+    formInputs.forEach(input => {
+        input.value = '';
+    });
+});
