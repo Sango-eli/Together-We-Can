@@ -525,3 +525,47 @@ window.addEventListener('beforeunload', function() {
         input.value = '';
     });
 });
+
+// Video Intersection Observer for Performance
+const videoObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        const video = entry.target;
+        
+        if (entry.isIntersecting) {
+            // Video is in view, start playing
+            video.play().catch(e => {
+                // Autoplay might be blocked, but that's okay
+                console.log('Video autoplay blocked:', e);
+            });
+        } else {
+            // Video is out of view, pause to save bandwidth
+            video.pause();
+        }
+    });
+}, {
+    threshold: 0.3, // Trigger when 30% of video is visible
+    rootMargin: '50px' // Add some margin for smoother experience
+});
+
+// Observe all videos
+document.querySelectorAll('.video-item video').forEach(video => {
+    videoObserver.observe(video);
+    
+    // Add loading="lazy" for better performance (but keep autoplay for when visible)
+    video.setAttribute('loading', 'lazy');
+    
+    // Handle video load errors
+    video.addEventListener('error', function() {
+        console.error('Video failed to load:', this.src);
+        // Could show a fallback message or image here
+    });
+    
+    // Add play/pause indicators for user control
+    video.addEventListener('play', function() {
+        this.style.opacity = '1';
+    });
+    
+    video.addEventListener('pause', function() {
+        this.style.opacity = '0.8';
+    });
+});
